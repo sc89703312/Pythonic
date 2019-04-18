@@ -48,6 +48,7 @@ def combinations_with_no_duplicate(iterable, r):
     while True:
         for i in reversed(range(r)):
             if indices[i] != i + n - r:
+                # print("process {} th".format(i))
                 break
         else:
             return
@@ -56,8 +57,9 @@ def combinations_with_no_duplicate(iterable, r):
             indices[i] += 1
         indices[i] += 1
 
-        if indices[i] > i + n - r:
-            break
+        if indices[i] > n-r+i:
+            indices[i] = n-r+i
+            continue
 
         for j in range(i + 1, r):
             indices[j] = indices[j - 1] + 1
@@ -124,4 +126,4 @@ def product(*args, repeat=1):
         yield tuple(prod)
 
 
-print(list(combinations_with_no_duplicate("AAABC", 3)))
+print(list(combinations_with_no_duplicate([60,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30], 15)))
