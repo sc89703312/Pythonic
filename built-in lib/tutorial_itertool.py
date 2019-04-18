@@ -34,6 +34,36 @@ def combinations(iterable, r):
 
         yield tuple(pool[i] for i in indices)
 
+def combinations_with_no_duplicate(iterable, r):
+    # 去重版本
+    # 每次尽可能的后移
+    sorted(iterable)
+    pool = tuple(iterable)
+    n = len(pool)
+    if r > n:
+        return
+    indices = list(range(r))
+    print(indices)
+    yield tuple(pool[i] for i in indices)
+    while True:
+        for i in reversed(range(r)):
+            if indices[i] != i + n - r:
+                break
+        else:
+            return
+
+        while indices[i] < i + n - r and pool[indices[i]] == pool[indices[i]+1]:
+            indices[i] += 1
+        indices[i] += 1
+
+        if indices[i] > i + n - r:
+            break
+
+        for j in range(i + 1, r):
+            indices[j] = indices[j - 1] + 1
+
+        yield tuple(pool[i] for i in indices)
+
 def combinations_with_replacement(iterable, r):
     # 有放回的拿
     # 保证indices是一个单调不减的位置序列
@@ -92,3 +122,6 @@ def product(*args, repeat=1):
         result = [x+[y] for x in result for y in pool]
     for prod in result:
         yield tuple(prod)
+
+
+print(list(combinations_with_no_duplicate("AAABC", 3)))
